@@ -1,0 +1,73 @@
+﻿@model CustomerOrderViewModel
+@{
+    ViewData["Title"] = "Müşteri & Siparişler";
+}
+
+<div class="container">
+    <div class="row g-3">
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">Müşteri</div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <div class="text-muted small">ID</div>
+                        <div class="fw-semibold">@Model.Customer.Id</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-muted small">Ad Soyad</div>
+                        <div class="fw-semibold">@Model.Customer.FullName</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-muted small">E-posta</div>
+                        <div><a href="mailto:@Model.Customer.Email">@Model.Customer.Email</a></div>
+                    </div>
+                    <hr />
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-secondary">Sipariş: @Model.Orders.Count</span>
+                        <span class="badge bg-success">Toplam: <span class="money">@Model.GrandTotal.ToString("C")</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Siparişler</span>
+                    <span class="text-muted small">(@Model.Orders.Count adet)</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width:110px">Sipariş ID</th>
+                                <th>Ürün</th>
+                                <th class="text-end" style="width:140px">Fiyat</th>
+                                <th class="text-center" style="width:90px">Adet</th>
+                                <th class="text-end" style="width:160px">Ara Toplam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var o in Model.Orders)
+                            {
+                                <tr>
+                                    <td>@o.Id</td>
+                                    <td>@o.ProductName</td>
+                                    <td class="text-end money">@o.Price.ToString("C")</td>
+                                    <td class="text-center">@o.Quantity</td>
+                                    <td class="text-end money">@o.LineTotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4" class="text-end">Genel Toplam</th>
+                                <th class="text-end money">@Model.GrandTotal.ToString("C")</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
